@@ -1,0 +1,33 @@
+tr.correct {
+    background-color: aquamarine;
+}
+
+tr.incorrect {
+    background-color:darksalmon
+}
+
+section.answer-zone {
+    border: dotted 3px gray;
+}
+
+section.correct {
+    background-color: aquamarine;
+}
+
+section.wrong {
+    background-color: darksalmon;
+}
+
+table.result {
+    margin: auto;
+    min-width: 200px;
+    max-width: 500px;
+}
+
+table.result td {
+    text-align: right;
+}
+
+table.result td.wrong {
+    color: darksalmon
+}
