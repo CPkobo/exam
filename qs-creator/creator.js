@@ -82,8 +82,9 @@ function createExam(path, title, isWriteFile) {
 }
 
 // const qs = batchCreateQuestions(testText, false)
-const isWriteFile = true
-const result = createExam('./10.txt', '10', isWriteFile)
-if (!isWriteFile) {
-    console.log(result)
-}
+// const isWriteFile = true
+// const result = createExam('./10.txt', '10', isWriteFile)
+// if (!isWriteFile) {
+//     console.log(result)
+// }
+createExam('./7.txt', '第７回事務職員能力認定試験', true)

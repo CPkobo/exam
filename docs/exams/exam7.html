@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <link rel="stylesheet" href="../index.css"> 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>法律事務職員能力認定試験</title>
+</head>
+<body>
+  <div id="app" class="content">
+    <div v-if="!result">
+      <header>
+        <h1 class="title m-5">{{ title }}</h1>
+        <a href="../index.html" @click="backToIndex">目次へ戻る</a>
+      </header>
+      <section class="m-3">
+        <p class="is-size-4">【{{ qs[page].subtitle }}】<br />{{ qs[page].problem }}</p>
+        <table class="table is-size-5">
+          <thead>
+            <tr>
+              <td width="5%"></td>
+              <td class="has-text-centered" width="7%">回答</td>
+              <td >選択肢</td>
+              <td class="has-text-centered" width="7%">○</td>
+              <td class="has-text-centered" width="7%">✖︎</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="op, opx in qs[page].options" :key="'opt' + opx" :class="{correct: op.c, incorrect: op.i}">
+              <td class="has-text-centered">{{ opx + 1 }}</td>
+              <td class="has-text-centered" @click="selectAnswer(opx, true)">
+                <input class="checkbox" type="checkbox" v-model="op.s" @change="selectAnswer(opx, false)" :disabled="qs[page].get > -1"/>
+              </td>
+              <td @click="selectAnswer(opx, true)">{{ op.t }}</td>
+              <td class="has-text-centered" @click="checkThis('c', opx)">
+                <input class="checkbox" type="checkbox" v-model="op.c" @change="checkAnother('c', opx)" :disabled="qs[page].get > -1" />
+              </td>
+              <td class="has-text-centered" @click="checkThis('i', opx)">
+                <input type="checkbox" v-model="op.i" @change="checkAnother('i', opx)" :disabled="qs[page].get > -1" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="button" @click="previousPage" :disabled="page === 0">前へ</button>
+        <button class="button" @click="answer" :disabled="qs[page].get > -1">回答する</button>
+        <button class="button" @click="displayAnswer" :disabled="qs[page].get > -1">答えを見る</button>
+        <button class="button" @click="clearCheck" :disabled="qs[page].get > -1">リセット</button>
+        <button class="button" @click="nextPage" :disabled="(page >= qs.length - 1) || (qs[page].get === -1)">次へ</button>
+        <button class="button" @click="displayResult" v-if="hasComplete">結果を確認する</button>
+      </section>
+      <section class="m-3 p-3 answer-zone" v-if="qs[page].isShowAnswer" :class="{correct: qs[page].get > 0, wrong: qs[page].get === 0}">
+        <h2 class="is-size-3">正答: {{ qs[page].answer }}<span v-if="qs[page].get > -1">（{{ qs[page].get }}点）</span></h2>
+        <p class="is-size-4">{{ qs[page].explain }}</p>
+      </section>
+    </div>
+    <div v-if="result">
+      <h1 class="title m-5 has-text-centered">結果</h1>
+      <p class="is-size-3 m-5 has-text-centered">{{ total }} / {{ qs.length }}</p>
+      <table class="table is-narrow is-striped result">
+        <thead>
+          <tr>
+            <td>問題</td>
+            <td>正答</td>
+            <td>回答</td>
+            <td>点数</td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="q, qx of qs" :key="'q' + qx">
+            <td>問 {{qx + 1}}</td>
+            <td>{{ q.answer}}</td>
+            <td :class="{wrong: q.answer !== q.myAnswer }">{{ q.myAnswer}}</td>
+            <td>{{ q.get }}</td>
+            <td>
+              <button class="button is-small" @click="backToProblem(qx)">再確認</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="7.js"></script>
+  <script src="../exam.js"></script>
+</body>
+</html>
