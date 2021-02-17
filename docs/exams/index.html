@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <link rel="stylesheet" href="index.css"> 
+  <title>法律事務職員能力認定試験</title>
+</head>
+<body>
+  <div class="content" id="app">
+    <h1 class="title is-size-2 has-text-centered mt-6">目次</h1>
+    <ul class="is-size-4">
+      <li v-for="item in items" :key="item.text">
+        {{ item.text }}
+        <a class="ml-3" :href="'./exams/' + item.link + '?restart'">最初から</a>
+        <a class="ml-3" :href="'./exams/' + item.link">続きから</a>
+      </li>
+    </ul>
+  </div>
+  <script src="index.js"></script>
+</body>
+</html>
